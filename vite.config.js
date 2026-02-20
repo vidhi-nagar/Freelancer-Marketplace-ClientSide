@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://freelancer-marketplace-server-side.vercel.app/",
+        target: "https://freelancer-marketplace-server-side.vercel.app",
         changeOrigin: true,
       },
     },
