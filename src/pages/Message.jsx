@@ -17,7 +17,8 @@ export default function Message() {
 
   const { data: conversation } = useQuery({
     queryKey: ["conversation", id],
-    queryFn: () => newRequest.get(`/conversations/single/${id}`).then((res) => res.data),
+    queryFn: () =>
+      newRequest.get(`/conversations/single/${id}`).then((res) => res.data),
   });
 
   const { data: fetchedMessages } = useQuery({
@@ -31,11 +32,18 @@ export default function Message() {
 
   // Socket.io setup
   useEffect(() => {
-    socket = io(import.meta.env.VITE_SOCKET_URL || "http://localhost:5000");
+    socket = io(
+      import.meta.env.VITE_SOCKET_URL ||
+        "https://freelancer-marketplace-server-side.vercel.app/",
+    );
     socket.emit("addUser", currentUser._id);
 
     socket.on("getMessage", ({ senderId, text }) => {
-      setArrivalMessage({ userId: senderId, desc: text, createdAt: Date.now() });
+      setArrivalMessage({
+        userId: senderId,
+        desc: text,
+        createdAt: Date.now(),
+      });
     });
 
     return () => socket.disconnect();
@@ -43,8 +51,10 @@ export default function Message() {
 
   useEffect(() => {
     if (arrivalMessage) {
-      const isParticipant = conversation &&
-        (arrivalMessage.userId === conversation.sellerId || arrivalMessage.userId === conversation.buyerId);
+      const isParticipant =
+        conversation &&
+        (arrivalMessage.userId === conversation.sellerId ||
+          arrivalMessage.userId === conversation.buyerId);
       if (isParticipant) setMessages((prev) => [...prev, arrivalMessage]);
     }
   }, [arrivalMessage, conversation]);
@@ -61,8 +71,14 @@ export default function Message() {
         conversationId: id,
         desc: newMsg,
       });
-      const receiverId = currentUser.isSeller ? conversation?.buyerId : conversation?.sellerId;
-      socket.emit("sendMessage", { senderId: currentUser._id, receiverId, text: newMsg });
+      const receiverId = currentUser.isSeller
+        ? conversation?.buyerId
+        : conversation?.sellerId;
+      socket.emit("sendMessage", {
+        senderId: currentUser._id,
+        receiverId,
+        text: newMsg,
+      });
       setMessages((prev) => [...prev, res.data]);
       setNewMsg("");
     } catch (err) {
@@ -87,7 +103,9 @@ export default function Message() {
           </div>
           <div>
             <p className="font-bold text-secondary">Chat</p>
-            <p className="text-xs text-gray-400">Conversation #{id.substring(0, 8)}...</p>
+            <p className="text-xs text-gray-400">
+              Conversation #{id.substring(0, 8)}...
+            </p>
           </div>
         </div>
 
@@ -101,13 +119,25 @@ export default function Message() {
           {messages.map((msg, i) => {
             const isOwn = msg.userId === currentUser._id;
             return (
-              <div key={i} className={`flex ${isOwn ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm ${
-                  isOwn ? "bg-primary text-white rounded-br-sm" : "bg-gray-100 text-secondary rounded-bl-sm"
-                }`}>
+              <div
+                key={i}
+                className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-xs lg:max-w-md px-4 py-2.5 rounded-2xl text-sm ${
+                    isOwn
+                      ? "bg-primary text-white rounded-br-sm"
+                      : "bg-gray-100 text-secondary rounded-bl-sm"
+                  }`}
+                >
                   <p>{msg.desc}</p>
-                  <p className={`text-xs mt-1 ${isOwn ? "text-white/70" : "text-gray-400"}`}>
-                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  <p
+                    className={`text-xs mt-1 ${isOwn ? "text-white/70" : "text-gray-400"}`}
+                  >
+                    {new Date(msg.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </p>
                 </div>
               </div>
