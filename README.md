@@ -41,29 +41,3 @@ src/
 
 The app will run on:
 http://localhost:5173
-
-## 🔗 Backend Repository
-
-The backend for this project is maintained separately.
-
-## 🌟 Features
-
-- User authentication (Login / Register)
-- Browse freelancers
-- Post projects
-- Secure API integration
-- Responsive UI
-
-## 📌 Environment Variables
-
-Create a `.env` file in the root directory and add:
-
-VITE_API_URL=your_backend_url_here
-
-Example:
-VITE_API_URL=http://localhost:5000
-
-## 👩‍💻 Author
-
-Vidhi  
-Aspiring MERN Stack Developer
