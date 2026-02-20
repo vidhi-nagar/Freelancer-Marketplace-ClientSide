@@ -34,7 +34,7 @@ export default function Message() {
   useEffect(() => {
     socket = io(
       import.meta.env.VITE_SOCKET_URL ||
-        "https://freelancer-marketplace-server-side.vercel.app",
+        "https://freelancer-marketplace-server-side.vercel.app/api",
     );
     socket.emit("addUser", currentUser._id);
 
