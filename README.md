@@ -41,3 +41,14 @@ src/
 
 The app will run on:
 http://localhost:5173
+
+## 🔗 Backend Repository
+
+The backend for this project is available here:
+
+https://github.com/vidhi-nagar/Freelancer-Marketplace-ServerSide
+
+## 👩‍💻 Author
+
+Vidhi  
+Aspiring MERN Stack Developer
